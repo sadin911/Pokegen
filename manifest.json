@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "Gemini Showdown Visualizer",
+    "version": "1.0",
+    "description": "Visualizes Pokemon Showdown sets in Gemini chat.",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "host_permissions": [
+        "https://pokeapi.co/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://gemini.google.com/*"
+            ],
+            "js": [
+                "src/parser.js",
+                "src/api.js",
+                "src/ui.js",
+                "src/content.js"
+            ],
+            "css": [
+                "src/styles.css"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "assets/icon.png"
+    }
+}
