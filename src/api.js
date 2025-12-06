@@ -36,12 +36,28 @@ const PokeAPI = {
             ? chain.evolution_details[0]
             : null;
 
+        let condition = null;
+        if (details) {
+            const parts = [];
+            if (details.min_level) parts.push(`Lvl ${details.min_level}`);
+            if (details.item) parts.push(details.item.name.replace(/-/g, ' '));
+            if (details.held_item) parts.push(`holding ${details.held_item.name.replace(/-/g, ' ')}`);
+            if (details.known_move) parts.push(`knows ${details.known_move.name.replace(/-/g, ' ')}`);
+            if (details.known_move_type) parts.push(`knows ${details.known_move_type.name} move`);
+            if (details.min_happiness) parts.push(`High Happiness`);
+            if (details.min_beauty) parts.push(`High Beauty`);
+            if (details.min_affection) parts.push(`High Affection`);
+            if (details.time_of_day) parts.push(`(${details.time_of_day})`);
+            if (details.location) parts.push(`at ${details.location.name.replace(/-/g, ' ')}`);
+            if (details.trigger.name === 'trade') parts.push('Trade');
+
+            condition = parts.join(', ');
+        }
+
         const node = {
             name: speciesName,
             id: id,
-            min_level: details ? details.min_level : null,
-            trigger: details ? details.trigger.name : null,
-            item: details && details.item ? details.item.name : null,
+            condition: condition,
             evolves_to: []
         };
 

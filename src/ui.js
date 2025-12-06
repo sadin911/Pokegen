@@ -114,7 +114,7 @@ const ShowdownUI = {
                 <div class="gsv-evo-stage">
                     <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${node.id}.png" alt="${node.name}">
                     <span>${node.name}</span>
-                    ${node.min_level ? `<small>Lvl ${node.min_level}</small>` : ''}
+                    ${node.condition ? `<small>${node.condition}</small>` : ''}
                 </div>
         `;
 
