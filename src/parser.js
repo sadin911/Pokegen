@@ -1,17 +1,29 @@
 const ShowdownParser = {
     isShowdownBlock: function (text) {
         if (!text) return false;
-        // Relaxed check: Needs at least a name line or Ability/EVs/Nature/Moves
-        // "Pikachu @ Light Ball" OR "Ability:" AND "Nature"
-        const lines = text.split('\n');
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
         if (lines.length < 2) return false;
 
-        const hasAbility = text.includes('Ability:');
-        const hasNature = text.includes(' Nature');
-        const hasMoves = text.includes('- ');
-        const hasAt = text.includes(' @ ');
+        // Check for standard Showdown keys to validate it's actually a pokemon set
+        let score = 0;
 
-        return (hasAbility && hasNature) || (hasAt && hasMoves);
+        // Check first line for Item syntax " @ "
+        const firstLine = lines[0].replace(/^![^\s]+\s+/, '');
+        if (firstLine.includes(' @ ')) score += 1;
+
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.startsWith('Ability:')) score += 1;
+            else if (line.startsWith('EVs:')) score += 1;
+            else if (line.startsWith('IVs:')) score += 1;
+            else if (line.startsWith('Level:')) score += 1;
+            else if (line.startsWith('Shiny:')) score += 1;
+            else if (line.endsWith(' Nature')) score += 1;
+            else if (line.startsWith('- ')) score += 1;
+        }
+
+        // Require at least 2 distinct showdown-like features matches
+        return score >= 2;
     },
 
     parseShowdown: function (text) {
@@ -29,7 +41,6 @@ const ShowdownParser = {
 
         // 1. First line: Name @ Item or just Name
         // Handle "!requestswsh " or similar prefixes
-        // Replace "!word " at start of line
         let firstLine = lines[0].replace(/^![^\s]+\s+/, '');
 
         if (firstLine.includes(' @ ')) {
@@ -56,7 +67,6 @@ const ShowdownParser = {
             if (line.startsWith('Ability: ')) {
                 pokemon.ability = line.replace('Ability: ', '').trim();
             } else if (line.startsWith('EVs: ')) {
-                // EVs: 252 Atk / 4 SpD / 252 Spe
                 const evParts = line.replace('EVs: ', '').split(' / ');
                 evParts.forEach(part => {
                     const [val, stat] = part.trim().split(' ');
