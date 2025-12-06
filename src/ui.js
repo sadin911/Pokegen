@@ -152,18 +152,53 @@ const ShowdownUI = {
         movesTab.className = 'gsv-tab-content';
         movesTab.id = 'gsv-tab-moves';
 
-        // Filter moves by version if present
+        // Filter and process moves
         const version = showdownData.gameVersion;
-        const moves = data.moves.filter(m => {
-            if (!version) return true; // Show all if no version specified
-            return m.version_group_details.some(d => d.version_group.name === version);
-        }).map(m => m.move.name);
+        let processedMoves = data.moves.map(m => {
+            // Find relevant detail for this version
+            const detail = version
+                ? m.version_group_details.find(d => d.version_group.name === version)
+                : m.version_group_details[m.version_group_details.length - 1]; // Default to latest
+
+            if (!detail) return null;
+
+            return {
+                name: m.move.name.replace(/-/g, ' '),
+                method: detail.move_learn_method.name,
+                level: detail.level_learned_at,
+                // Sort helper
+                sortOrder: detail.move_learn_method.name === 'level-up' ? 1 :
+                    detail.move_learn_method.name === 'machine' ? 2 :
+                        detail.move_learn_method.name === 'tutor' ? 3 :
+                            detail.move_learn_method.name === 'egg' ? 4 : 5
+            };
+        }).filter(Boolean);
+
+        // Sort moves: Method -> Level -> Name
+        processedMoves.sort((a, b) => {
+            if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
+            if (a.method === 'level-up' && a.level !== b.level) return a.level - b.level;
+            return a.name.localeCompare(b.name);
+        });
+
+        const renderMoveBadge = (move) => {
+            if (move.method === 'level-up') return `<span class="gsv-badge lvl">Lvl ${move.level}</span>`;
+            if (move.method === 'machine') return `<span class="gsv-badge tm">TM</span>`;
+            if (move.method === 'egg') return `<span class="gsv-badge egg">Egg</span>`;
+            if (move.method === 'tutor') return `<span class="gsv-badge tutor">Tutor</span>`;
+            return `<span class="gsv-badge other">${move.method}</span>`;
+        };
 
         movesTab.innerHTML = `
-        <h3>Moves for ${version || 'All Versions'}</h3>
-        <ul class="gsv-move-list">
-            ${moves.length > 0 ? moves.map(m => `<li>${m}</li>`).join('') : '<li>No moves found for this version</li>'}
-        </ul>
+        <h3>Moves for ${version || 'Latest'}</h3>
+        <div class="gsv-move-container">
+            ${processedMoves.length > 0 ? processedMoves.map(m => `
+                <div class="gsv-move-row">
+                    ${renderMoveBadge(m)}
+                    <span class="gsv-move-name">${m.name}</span>
+                </div>
+            `).join('') : '<p>No moves found for this version</p>'}
+        </div>
     `;
         content.appendChild(movesTab);
 
