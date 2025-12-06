@@ -1,9 +1,9 @@
 /* CSS variables and basic setup */
 :root {
-    --glass-bg: rgba(20, 20, 20, 0.85);
+    --glass-bg: rgba(20, 20, 20, 0.95);
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    --backdrop-blur: 12px;
+    --backdrop-blur: 16px;
     --accent-color: #ff5252;
     --text-color: #ffffff;
 }
@@ -84,7 +84,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 20px 20px 10px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), transparent);
 }
 
@@ -117,4 +117,249 @@
 
 .gsv-details strong {
     color: rgba(255, 255, 255, 0.7);
+}
+
+/* New Features: Tabs, Evo, Moves */
+.gsv-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.3);
+    margin-top: 5px;
+}
+
+.gsv-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.gsv-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.gsv-tab.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.gsv-tab-content {
+    display: none;
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.gsv-tab-content.active {
+    display: block;
+}
+
+/* Stats */
+.gsv-stats {
+    margin-top: 10px;
+}
+
+.gsv-stat-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 12px;
+}
+
+.gsv-stat-row span:first-child {
+    width: 60px;
+    opacity: 0.7;
+}
+
+.gsv-stat-row span:last-child {
+    width: 30px;
+    text-align: right;
+}
+
+.gsv-stat-bar-bg {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    height: 6px;
+    border-radius: 3px;
+    margin: 0 8px;
+    overflow: hidden;
+}
+
+.gsv-stat-bar {
+    background: var(--accent-color);
+    height: 100%;
+}
+
+/* Evolution Chain (Tree Layout) */
+.gsv-evo-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.gsv-evo-node {
+    display: flex;
+    align-items: center;
+}
+
+.gsv-evo-children {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+    gap: 10px;
+}
+
+.gsv-evo-branch {
+    display: flex;
+    align-items: center;
+}
+
+.gsv-evo-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    min-width: 70px;
+    text-align: center;
+}
+
+.gsv-evo-stage img {
+    width: 50px;
+    height: 50px;
+}
+
+.gsv-arrow {
+    font-size: 16px;
+    opacity: 0.5;
+    margin: 0 5px;
+}
+
+/* Types */
+.gsv-types {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.gsv-type {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #666;
+    /* default */
+}
+
+/* Basic type colors */
+.type-fire {
+    background: #f08030;
+}
+
+.type-water {
+    background: #6890f0;
+}
+
+.type-grass {
+    background: #78c850;
+}
+
+.type-electric {
+    background: #f8d030;
+}
+
+.type-ice {
+    background: #98d8d8;
+}
+
+.type-fighting {
+    background: #c03028;
+}
+
+.type-poison {
+    background: #a040a0;
+}
+
+.type-ground {
+    background: #e0c068;
+}
+
+.type-flying {
+    background: #a890f0;
+}
+
+.type-psychic {
+    background: #f85888;
+}
+
+.type-bug {
+    background: #a8b820;
+}
+
+.type-rock {
+    background: #b8a038;
+}
+
+.type-ghost {
+    background: #705898;
+}
+
+.type-dragon {
+    background: #7038f8;
+}
+
+.type-steel {
+    background: #b8b8d0;
+}
+
+.type-dark {
+    background: #705848;
+}
+
+.type-fairy {
+    background: #ee99ac;
+}
+
+/* Moves */
+.gsv-move-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.gsv-move-list li {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gsv-tab-content h3 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom Scrollbar for tabs */
+.gsv-tab-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.gsv-tab-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
 }

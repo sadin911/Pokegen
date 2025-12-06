@@ -22,11 +22,17 @@
             white-space: pre-wrap;
             font-family: monospace;
         }
+
+        h3 {
+            color: #8ab4f8;
+        }
     </style>
 </head>
 
 <body>
     <h1>Mock Gemini Chat</h1>
+
+    <h3>Pikachu (Basic)</h3>
     <div class="code-block">
         Pikachu @ Light Ball
         Ability: Static
@@ -38,6 +44,7 @@
         - Fake Out
     </div>
 
+    <h3>Landorus-Therian (Standard)</h3>
     <div class="code-block">
         Landorus-Therian @ Choice Scarf
         Ability: Intimidate
@@ -49,6 +56,7 @@
         - Explosion
     </div>
 
+    <h3>Gallade (Request Prefix)</h3>
     <div class="code-block">
         !requestswsh Gallade (M) @ Wide Lens
         Level: 50
@@ -62,7 +70,20 @@
         - Swords Dance
     </div>
 
+    <h3>Eevee (Branched Evolution)</h3>
+    <div class="code-block">
+        Eevee @ Eviolite
+        Ability: Adaptability
+        EVs: 252 HP / 252 SpD / 4 Spe
+        Calm Nature
+        - Wish
+        - Protect
+        - Heal Bell
+        - Foul Play
+    </div>
+
     <!-- Invalid Block - Should NOT have button -->
+    <h3>Invalid Block (Python Code)</h3>
     <div class="code-block">
         Here is some python code:
         def hello():
@@ -70,6 +91,7 @@
         return "Nature"
     </div>
 
+    <!-- Scripts -->
     <script src="../src/parser.js"></script>
     <script src="../src/api.js"></script>
     <script src="../src/ui.js"></script>

@@ -34,14 +34,37 @@ const ShowdownParser = {
             ability: '',
             evs: {},
             nature: '',
-            moves: []
+            moves: [],
+            gameVersion: null
         };
 
         if (lines.length === 0) return pokemon;
 
         // 1. First line: Name @ Item or just Name
         // Handle "!requestswsh " or similar prefixes
-        let firstLine = lines[0].replace(/^![^\s]+\s+/, '');
+        // Replace "!word " at start of line
+        let firstLine = lines[0];
+        const prefixMatch = firstLine.match(/^!request(\w+)\s+/);
+        if (prefixMatch) {
+            const code = prefixMatch[1];
+            // naive mapping
+            const versionMap = {
+                'swsh': 'sword-shield',
+                'sv': 'scarlet-violet',
+                'bdsp': 'brilliant-diamond-shining-pearl',
+                'usum': 'ultra-sun-ultra-moon',
+                'sm': 'sun-moon',
+                'oras': 'omega-ruby-alpha-sapphire',
+                'xy': 'x-y',
+                'bw': 'black-white',
+                'dp': 'diamond-pearl'
+            };
+            pokemon.gameVersion = versionMap[code] || null;
+            firstLine = firstLine.replace(/^![^\s]+\s+/, '');
+        } else {
+            // Just remove any other !prefix if we didn't match specific "request" one
+            firstLine = firstLine.replace(/^![^\s]+\s+/, '');
+        }
 
         if (firstLine.includes(' @ ')) {
             const parts = firstLine.split(' @ ');

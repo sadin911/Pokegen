@@ -49,10 +49,10 @@ function scanForShowdownBlocks() {
                     const apiData = await PokeAPI.fetchPokemonData(showdownData.name);
                     console.log("API Data:", apiData);
 
-                    ShowdownUI.showPokemonCard(apiData, showdownData);
+                    ShowdownUI.showPokemonCard(apiData, showdownData, apiData.evolutionTree);
                 } catch (err) {
                     console.error(err);
-                    alert("Failed to load Pokemon data");
+                    alert("Failed to load Pokemon data: " + err.message);
                 } finally {
                     btn.innerText = 'Visualize 🔍';
                 }
